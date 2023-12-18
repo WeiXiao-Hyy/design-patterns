@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.alipay.shop.repo.mapper.UserMapper">
+    <resultMap id="BaseResultMap" type="com.alipay.shop.model.UserInfo">
+        <id column="id" property="id"/>
+        <result column="userName" property="user_name"/>
+        <result column="password" property="password"/>
+        <result column="age" property="age"/>
+        <result column="email" property="email"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,
+        user_name,
+        password,
+        age,
+        email
+    </sql>
+
+    <select id="getAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from user;
+    </select>
+</mapper>

@@ -1,0 +1,26 @@
+#file: noinspection SpringBootApplicationYaml
+server:
+  port: 8081
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: root
+    url: jdbc:mysql://localhost:3306/shop?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true
+
+redis:
+  host: 127.0.0.1
+  port: 6379
+
+mybatis-plus:
+  mapper-locations: classpath:mapper/*Mapper.xml
+  global-config:
+    db-config:
+      id-type: auto
+
+gitee:
+  client_id: a37f1f134f04696bd623746520e48e44ee8e3f1b43ff73af640c49ba23dfdc3e
+  client_secret: df01d28789c1442470723bf72e05eb478f60bd2671ab88867ec8b3d89a9578bd
+  redirect_uri: http://localhost:8081/bridge/gitee
+  user_prefix: "GITEE@"
