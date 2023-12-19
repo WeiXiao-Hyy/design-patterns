@@ -1,7 +1,6 @@
 package com.alipay.shop.designer.state;
 
 
-import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -15,29 +14,32 @@ import org.springframework.stereotype.Component;
 @Component
 public class DeprecatedOrderContext {
 
-    //引入抽象状态，用于状态方法的调用
-    @Setter
-    private DeprecatedAbstractOrderState currentStatus;
-
     //新创建订单的初始状态
     @Autowired
     private DeprecatedCreateOrder deprecatedCreateOrder;
 
+    @Autowired
+    private DeprecatedPayOrder deprecatedPayOrder;
+
+    @Autowired
+    private DeprecatedSendOrder deprecatedSendOrder;
+
+    @Autowired
+    private DeprecatedReceiveOrder deprecatedReceiveOrder;
+
     public DeprecatedOrder createOrder(String orderId, String productId) {
-        this.currentStatus = this.deprecatedCreateOrder;
-        return currentStatus.createOrder(orderId, productId, this);
+        return deprecatedCreateOrder.createOrder(orderId, productId, this);
     }
 
-
     public DeprecatedOrder payOrder(String orderId) {
-        return currentStatus.payOrder(orderId, this);
+        return deprecatedPayOrder.payOrder(orderId, this);
     }
 
     public DeprecatedOrder sendOrder(String orderId) {
-        return currentStatus.sendOrder(orderId, this);
+        return deprecatedSendOrder.sendOrder(orderId, this);
     }
 
     public DeprecatedOrder receiveOrder(String orderId) {
-        return currentStatus.receiveOrder(orderId, this);
+        return deprecatedReceiveOrder.receiveOrder(orderId, this);
     }
 }

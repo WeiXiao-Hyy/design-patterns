@@ -16,20 +16,17 @@ public class DeprecatedPayOrder extends DeprecatedAbstractOrderState {
     @Autowired
     private RedisCommonProcessor redisClient;
 
-    @Autowired
-    private DeprecatedSendOrder deprecatedSendOrder;
-
     @Override
     protected DeprecatedOrder payOrder(String orderId, DeprecatedOrderContext context) {
         DeprecatedOrder order = (DeprecatedOrder) redisClient.get(orderId);
         if (!order.getState().equals(ORDER_WAIT_PAY)) {
             throw new UnsupportedOperationException("Order state should be ORDER_WAIT_PAY, not now it's state is : " + order.getState());
         }
+
         //TODO: 支付逻辑
         order.setState(ORDER_WAIT_SEND);
         redisClient.set(orderId, order);
 
-        context.setCurrentStatus(deprecatedSendOrder);
         return order;
     }
 }

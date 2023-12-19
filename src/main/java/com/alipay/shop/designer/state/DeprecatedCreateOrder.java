@@ -16,9 +16,6 @@ public class DeprecatedCreateOrder extends DeprecatedAbstractOrderState {
     @Autowired
     private RedisCommonProcessor redisClient;
 
-    @Autowired
-    private DeprecatedPayOrder deprecatedPayOrder;
-
     @Override
     protected DeprecatedOrder createOrder(String orderId, String productId, DeprecatedOrderContext context) {
         //利用redis超时时间来设置未支付订单
@@ -33,8 +30,6 @@ public class DeprecatedCreateOrder extends DeprecatedAbstractOrderState {
         redisClient.set(orderId, order, 900);
 
         //TODO: 观察者模式,发送订单创建Event
-        //订单创建完成，设置Context上下文角色的CurrentState为待支付状态
-        context.setCurrentStatus(this.deprecatedPayOrder);
         return order;
     }
 }
