@@ -34,4 +34,20 @@ public class RedisCommonProcessor {
             set(key, value);
         }
     }
+
+    /**
+     * 判断缓存中是否有对应的value
+     *
+     * @param key Redis键名
+     * @return 是否存在
+     */
+    public Boolean exists(final String key) {
+        return redisTemplate.hasKey(key);
+    }
+
+    public void remove(String key) {
+        if (exists(key)) {
+            redisTemplate.delete(key);
+        }
+    }
 }
