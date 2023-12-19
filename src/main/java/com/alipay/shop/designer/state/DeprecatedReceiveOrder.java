@@ -23,6 +23,8 @@ public class DeprecatedReceiveOrder extends DeprecatedAbstractOrderState {
         }
         order.setState(ORDER_FINISH);
         redisClient.remove(orderId);
+        //TODO:观察者模式
+        super.notifyObserver(orderId, ORDER_FINISH);
         return order;
     }
 }

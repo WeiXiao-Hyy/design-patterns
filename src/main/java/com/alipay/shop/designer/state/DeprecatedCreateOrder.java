@@ -30,6 +30,7 @@ public class DeprecatedCreateOrder extends DeprecatedAbstractOrderState {
         redisClient.set(orderId, order, 900);
 
         //TODO: 观察者模式,发送订单创建Event
+        super.notifyObserver(orderId, ORDER_WAIT_PAY);
         return order;
     }
 }

@@ -26,7 +26,8 @@ public class DeprecatedPayOrder extends DeprecatedAbstractOrderState {
         //TODO: 支付逻辑
         order.setState(ORDER_WAIT_SEND);
         redisClient.set(orderId, order);
-
+        //TODO:观察者模式
+        super.notifyObserver(orderId, ORDER_WAIT_SEND);
         return order;
     }
 }

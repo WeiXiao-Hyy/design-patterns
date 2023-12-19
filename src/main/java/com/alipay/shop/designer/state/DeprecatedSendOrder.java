@@ -24,8 +24,8 @@ public class DeprecatedSendOrder extends DeprecatedAbstractOrderState {
 
         order.setState(ORDER_WAIT_RECEIVE);
         redisClient.set(orderId, order);
-        //TODO: 观察者模式，发送订单发货Event
-
+        //TODO:观察者模式
+        super.notifyObserver(orderId, ORDER_WAIT_RECEIVE);
         return order;
     }
 }
