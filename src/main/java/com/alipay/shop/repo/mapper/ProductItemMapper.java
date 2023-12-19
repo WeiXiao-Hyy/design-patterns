@@ -39,4 +39,21 @@ public interface ProductItemMapper extends BaseMapper<ProductItem> {
      */
     @Delete("delete from product_item where id = #{id} or pid = #{id}")
     void delItem(@Param("id") int id);
+
+
+    /**
+     * 根据Ids批量删除
+     *
+     * @param ids 商品类目Ids
+     */
+    void delItemsByIds(List<Integer> ids);
+
+    /**
+     * 根据当前Id查找子类目
+     *
+     * @param id 被查找Id
+     * @return 子类目Id集合
+     */
+    @Select("select * from product_item where pid = #{id}")
+    List<ProductItem> findChildById(Integer id);
 }

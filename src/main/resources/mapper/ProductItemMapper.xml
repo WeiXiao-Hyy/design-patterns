@@ -16,4 +16,12 @@
     <select id="findAll" resultMap="BaseResultMap">
         select <include refid="Base_Column_List"/> from product_item;
     </select>
+
+    <delete id="delItemsByIds" parameterType="java.util.List" >
+        delete
+        from product_item where 1>2 or id not in
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
 </mapper>

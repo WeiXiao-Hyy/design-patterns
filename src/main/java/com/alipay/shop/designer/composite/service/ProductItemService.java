@@ -8,13 +8,16 @@ import com.alipay.shop.model.ProductItem;
 import com.alipay.shop.repo.mapper.ProductItemMapper;
 import com.alipay.shop.util.RedisCommonProcessor;
 import java.util.ArrayList;
+import static java.util.Collections.emptyList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 /**
  * @author hyy
@@ -65,7 +68,7 @@ public class ProductItemService {
     public ProductComposite addItems(ProductItem item) {
         //先更新数据库
         productItemRepo.addItem(item.getName(), item.getPid());
-        //通过访问者模式访问树形结构，并添加心的商品类目
+        //通过访问者模式访问树形结构，并添加新的商品类目
         ProductComposite addItem = ProductComposite.builder()
                 .id(productItemRepo.findByNameAndPid(item.getName(), item.getPid()).getId())
                 .name(item.getName())
@@ -79,7 +82,6 @@ public class ProductItemService {
     }
 
     /**
-     * TODO: 删除深度扩展，深度>=2
      * 删除类目
      *
      * @param item 删除类目{@link ProductItem}
@@ -87,16 +89,20 @@ public class ProductItemService {
      */
     @Transactional
     public ProductComposite delItems(ProductItem item) {
-        //先更新数据库
-        productItemRepo.delItem(item.getId());
+
         //通过访问者模式访问树形结构，并删除商品类目
         ProductComposite delItem = ProductComposite.builder()
                 .id(item.getId())
                 .pid(item.getPid())
                 .build();
         AbstractProductItem updatedItems = delItemVisitor.visitor(delItem);
+
+        //先更新数据库
+        productItemRepo.delItemsByIds(getDelItemsIds(updatedItems));
+
         //再更新Redis缓存，此处可以做重试机制，如果重试不成功，可以人工介入
         redisClient.set("items", updatedItems);
+
         return (ProductComposite) updatedItems;
     }
 
@@ -117,5 +123,48 @@ public class ProductItemService {
         });
 
         return composites.isEmpty() ? null : composites.get(0);
+    }
+
+    /**
+     * 获取需要删除的商品类目IdList.
+     *
+     * @param productItem 需要删除的商品类目
+     * @return id集合
+     */
+    private List<Integer> getDelItemsIds(AbstractProductItem productItem) {
+        //获取全量ids
+        Set<Integer> productItemIds = productItemRepo.findAll()
+                .stream()
+                .map(ProductItem::getId)
+                .collect(Collectors.toSet());
+
+        //根据父id获取所有子id
+        List<Integer> delItemsIds = getProductLeafsByPId(productItem);
+
+        //取补集
+        return productItemIds.stream().filter(delItemsIds::contains).toList();
+    }
+
+    //根据父id获取所有子id
+    private List<Integer> getProductLeafsByPId(AbstractProductItem productItem) {
+        //退出条件
+        if (Objects.isNull(productItem)) {
+            return emptyList();
+        }
+
+        ProductComposite delItem = (ProductComposite) productItem;
+        List<Integer> res = new ArrayList<>();
+        res.add(delItem.getId());
+
+        //空集合
+        if (CollectionUtils.isEmpty(delItem.getChild())) {
+            return res;
+        }
+
+        //dfs
+        for (AbstractProductItem abstractItem : delItem.getChild()) {
+            res.addAll(getProductLeafsByPId(abstractItem));
+        }
+        return res;
     }
 }

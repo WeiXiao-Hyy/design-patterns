@@ -25,7 +25,7 @@ public class DelItemVisitor implements ItemVisitor<AbstractProductItem> {
 
         //不可删除根节点
         if (delItem.getId() == currentItem.getId()) {
-            throw new UnsupportedOperationException("root can not be delete");
+            throw new UnsupportedOperationException("root can not be deleted");
         }
 
         //如果删除的节点为当前节点则直接删除
