@@ -8,7 +8,7 @@ package com.alipay.shop.designer.state;
  * @see com.alipay.shop.designer.state
  */
 public enum OrderStateChangeAction {
-    PAY_ORDER,
-    SEND_ORDER,
-    RECEIVE_ORDER
+    PAY_ORDER, // 支付动作
+    SEND_ORDER, // 发货动作
+    RECEIVE_ORDER // 收货动作
 }
