@@ -1,4 +1,4 @@
-package com.alipay.shop.designer.state.observer;
+package com.alipay.shop.designer.state.deprecated.observer;
 
 /**
  * @author hyy

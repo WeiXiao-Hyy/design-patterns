@@ -1,7 +1,7 @@
-package com.alipay.shop.designer.state.service;
+package com.alipay.shop.designer.state.deprecated.service;
 
-import com.alipay.shop.designer.state.DeprecatedOrder;
-import com.alipay.shop.designer.state.DeprecatedOrderContext;
+import com.alipay.shop.designer.state.deprecated.DeprecatedOrder;
+import com.alipay.shop.designer.state.deprecated.DeprecatedOrderContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

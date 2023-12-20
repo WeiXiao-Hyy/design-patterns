@@ -1,15 +1,14 @@
-package com.alipay.shop.designer.state.observer;
+package com.alipay.shop.designer.state.deprecated.observer;
 
-import com.alipay.shop.designer.state.observer.constrants.DeprecatedConstants;
+import com.alipay.shop.designer.state.deprecated.observer.constrants.DeprecatedConstants;
 import jakarta.annotation.PostConstruct;
 
 /**
  * @author hyy
  * @Description
- * @create 2023-12-19 23:17
+ * @create 2023-12-19 23:02
  */
-public class DeprecatedSendObserver extends DeprecatedAbstractObserver{
-
+public class DeprecatePayObserver extends DeprecatedAbstractObserver {
 
     //将自己注册到集合中
     @PostConstruct
@@ -19,8 +18,8 @@ public class DeprecatedSendObserver extends DeprecatedAbstractObserver{
 
     @Override
     public void orderStateHandler(String orderId, String orderState) {
-        //订单初始化,状态必须是ORDER_WAIT_RECEIVE状态
-        if (!orderState.equals("ORDER_WAIT_RECEIVE")) {
+        //订单初始化,状态必须是ORDER_WAIT_SEND状态
+        if (!orderState.equals("ORDER_WAIT_SEND")) {
             return;
         }
         System.out.println("监听到,订单创建成功. 通过命令模式作为后续操作");

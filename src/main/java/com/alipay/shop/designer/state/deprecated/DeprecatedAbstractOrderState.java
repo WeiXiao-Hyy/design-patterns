@@ -1,6 +1,6 @@
-package com.alipay.shop.designer.state;
+package com.alipay.shop.designer.state.deprecated;
 
-import com.alipay.shop.designer.state.observer.DeprecatedAbstractObserver;
+import com.alipay.shop.designer.state.deprecated.observer.DeprecatedAbstractObserver;
 import java.util.List;
 import java.util.Vector;
 

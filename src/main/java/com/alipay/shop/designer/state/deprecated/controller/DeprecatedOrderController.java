@@ -1,7 +1,7 @@
-package com.alipay.shop.designer.state.controller;
+package com.alipay.shop.designer.state.deprecated.controller;
 
-import com.alipay.shop.designer.state.DeprecatedOrder;
-import com.alipay.shop.designer.state.service.DeprecatedOrderService;
+import com.alipay.shop.designer.state.deprecated.DeprecatedOrder;
+import com.alipay.shop.designer.state.deprecated.service.DeprecatedOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
