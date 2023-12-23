@@ -1,5 +1,7 @@
 package com.alipay.shop.designer.listener.listener;
 
+import com.alipay.shop.designer.command.OrderCommandInvoker;
+import com.alipay.shop.designer.command.cmd.OrderCommand;
 import com.alipay.shop.designer.listener.Order;
 import com.alipay.shop.designer.listener.OrderState;
 import com.alipay.shop.designer.listener.OrderStateChangeAction;
@@ -23,6 +25,9 @@ public class OrderStateListener {
     @Resource
     private RedisCommonProcessor redisProcessor;
 
+    @Resource
+    private OrderCommand orderCommand;
+
     @OnTransition(source = "ORDER_WAIT_PAY", target = "ORDER_WAIT_SEND")
     public boolean payToSend(Message<OrderStateChangeAction> message) {
         Order order = (Order) message.getHeaders().get("order");
@@ -32,7 +37,10 @@ public class OrderStateListener {
         }
         order.setOrderState(OrderState.ORDER_WAIT_SEND);
         redisProcessor.set(order.getOrderId(), order);
-        //TODO: 使用命令模式
+
+        //使用命令模式
+        OrderCommandInvoker invoker = new OrderCommandInvoker();
+        invoker.invoke(orderCommand, order);
         return true;
     }
 
@@ -45,7 +53,10 @@ public class OrderStateListener {
         }
         order.setOrderState(OrderState.ORDER_WAIT_RECEIVE);
         redisProcessor.set(order.getOrderId(), order);
-        //TODO: 使用命令模式
+
+        //使用命令模式
+        OrderCommandInvoker invoker = new OrderCommandInvoker();
+        invoker.invoke(orderCommand, order);
         return true;
     }
 
@@ -59,7 +70,10 @@ public class OrderStateListener {
         order.setOrderState(OrderState.ORDER_FINISH);
         redisProcessor.remove(order.getOrderId());
         redisProcessor.remove(order.getOrderId() + "STATE");
-        //TODO: 使用命令模式
+
+        //使用命令模式
+        OrderCommandInvoker invoker = new OrderCommandInvoker();
+        invoker.invoke(orderCommand, order);
         return true;
     }
 }

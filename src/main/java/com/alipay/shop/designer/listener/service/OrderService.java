@@ -1,5 +1,7 @@
 package com.alipay.shop.designer.listener.service;
 
+import com.alipay.shop.designer.command.OrderCommandInvoker;
+import com.alipay.shop.designer.command.cmd.OrderCommand;
 import com.alipay.shop.designer.listener.Order;
 import com.alipay.shop.designer.listener.OrderState;
 import static com.alipay.shop.designer.listener.OrderState.ORDER_WAIT_PAY;
@@ -31,6 +33,9 @@ public class OrderService {
     @Resource
     private RedisCommonProcessor redisProcessor;
 
+    @Resource
+    private OrderCommand orderCommand;
+
     public Order create(String productId) {
         String orderId = "OID" + productId;
         Order order = Order.builder()
@@ -40,6 +45,11 @@ public class OrderService {
                 .build();
         //将新订单存入Redis缓存里面,15分钟后失效
         redisProcessor.set(orderId, order, 900);
+
+        //使用命令模式
+        OrderCommandInvoker invoker = new OrderCommandInvoker();
+        invoker.invoke(orderCommand, order);
+
         return order;
     }
 
