@@ -1,7 +1,7 @@
 package com.alipay.shop.designer.state.deprecated.observer;
 
 import com.alipay.shop.designer.state.deprecated.observer.constrants.DeprecatedConstants;
-import jakarta.annotation.PostConstruct;
+import javax.annotation.PostConstruct;
 
 /**
  * @author hyy

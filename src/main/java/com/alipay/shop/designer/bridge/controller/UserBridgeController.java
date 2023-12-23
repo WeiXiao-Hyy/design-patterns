@@ -2,7 +2,7 @@ package com.alipay.shop.designer.bridge.controller;
 
 import com.alipay.shop.designer.bridge.service.UserBridgeService;
 import com.alipay.shop.model.UserInfo;
-import jakarta.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;

@@ -1,11 +1,19 @@
-package com.alipay.shop.designer.state;
+package com.alipay.shop.config;
 
+import com.alipay.shop.designer.listener.OrderState;
+import com.alipay.shop.designer.listener.OrderStateChangeAction;
 import java.util.EnumSet;
+import javax.annotation.Resource;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.statemachine.config.EnableStateMachine;
 import org.springframework.statemachine.config.StateMachineConfigurerAdapter;
 import org.springframework.statemachine.config.builders.StateMachineStateConfigurer;
 import org.springframework.statemachine.config.builders.StateMachineTransitionConfigurer;
+import org.springframework.statemachine.persist.RepositoryStateMachinePersist;
+import org.springframework.statemachine.redis.RedisStateMachineContextRepository;
+import org.springframework.statemachine.redis.RedisStateMachinePersister;
 
 /**
  * @author hyy
@@ -15,6 +23,17 @@ import org.springframework.statemachine.config.builders.StateMachineTransitionCo
 @Configuration
 @EnableStateMachine(name = "orderStateMachine")
 public class OrderStateMachineConfig extends StateMachineConfigurerAdapter<OrderState, OrderStateChangeAction> {
+
+    @Resource
+    private RedisConnectionFactory redisConnectionFactory;
+
+    //持久化状态机
+    @Bean(name = "stateMachineRedisPersister")
+    public RedisStateMachinePersister<OrderState, OrderStateChangeAction> getRedisPersister() {
+        RedisStateMachineContextRepository<OrderState, OrderStateChangeAction> repo = new RedisStateMachineContextRepository<>(redisConnectionFactory);
+        RepositoryStateMachinePersist<OrderState, OrderStateChangeAction> p = new RepositoryStateMachinePersist<>(repo);
+        return new RedisStateMachinePersister<>(p);
+    }
 
     //初始化方法
     @Override
@@ -44,4 +63,6 @@ public class OrderStateMachineConfig extends StateMachineConfigurerAdapter<Order
                 .target(OrderState.ORDER_FINISH)
                 .event(OrderStateChangeAction.RECEIVE_ORDER);
     }
+
+
 }

@@ -3,8 +3,8 @@ package com.alipay.shop.designer.bridge.impl;
 import com.alipay.shop.designer.bridge.IRegisterLoginFunction;
 import com.alipay.shop.model.UserInfo;
 import com.alipay.shop.repo.mapper.UserMapper;
-import jakarta.servlet.http.HttpServletRequest;
 import java.util.Objects;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author hyy

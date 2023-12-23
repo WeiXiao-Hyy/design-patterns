@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/deprecated/order")
-public class DeprecatedOrderController {
+public class  DeprecatedOrderController {
     @Autowired
     private DeprecatedOrderService deprecatedOrderService;
 

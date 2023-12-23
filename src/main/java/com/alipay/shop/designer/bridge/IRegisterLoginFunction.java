@@ -1,7 +1,7 @@
 package com.alipay.shop.designer.bridge;
 
 import com.alipay.shop.model.UserInfo;
-import jakarta.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * File Description.

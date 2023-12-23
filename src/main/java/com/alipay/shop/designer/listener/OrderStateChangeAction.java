@@ -1,4 +1,4 @@
-package com.alipay.shop.designer.state;
+package com.alipay.shop.designer.listener;
 
 /**
  * File Description.

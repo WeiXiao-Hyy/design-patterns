@@ -142,7 +142,7 @@ public class ProductItemService {
         List<Integer> delItemsIds = getProductLeafsByPId(productItem);
 
         //取补集
-        return productItemIds.stream().filter(delItemsIds::contains).toList();
+        return productItemIds.stream().filter(delItemsIds::contains).collect(Collectors.toList());
     }
 
     //根据父id获取所有子id

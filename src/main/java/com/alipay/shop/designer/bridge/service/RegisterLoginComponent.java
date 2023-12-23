@@ -2,7 +2,7 @@ package com.alipay.shop.designer.bridge.service;
 
 import com.alipay.shop.designer.bridge.IRegisterLoginFunction;
 import com.alipay.shop.model.UserInfo;
-import jakarta.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author hyy

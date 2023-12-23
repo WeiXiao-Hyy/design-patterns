@@ -4,7 +4,7 @@ import com.alipay.shop.designer.bridge.IRegisterLoginFunction;
 import com.alipay.shop.designer.bridge.factory.RegisterLoginComponentFactory;
 import com.alipay.shop.model.UserInfo;
 import com.alipay.shop.repo.mapper.UserMapper;
-import jakarta.annotation.PostConstruct;
+import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
