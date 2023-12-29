@@ -53,7 +53,7 @@ public class OrderService {
         return order;
     }
 
-    //待完善的PAY操作
+    //TODO: 待完善的PAY操作
     public Order pay(String productId) {
         String orderId = "OID" + productId;
         Order order = (Order) redisProcessor.get(orderId);

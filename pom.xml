@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.alipay</groupId>
-    <artifactId>shop</artifactId>
+    <artifactId>Design-Patterns</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>shop</name>
     <description>shop</description>
@@ -99,6 +99,13 @@
             <groupId>org.springframework.statemachine</groupId>
             <artifactId>spring-statemachine-redis</artifactId>
             <version>1.2.9.RELEASE</version>
+        </dependency>
+
+        <!-- alipay sdk -->
+        <dependency>
+            <groupId>com.alipay.sdk</groupId>
+            <artifactId>alipay-sdk-java</artifactId>
+            <version>4.34.0.ALL</version>
         </dependency>
 
     </dependencies>
