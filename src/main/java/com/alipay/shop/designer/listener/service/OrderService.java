@@ -2,6 +2,7 @@ package com.alipay.shop.designer.listener.service;
 
 import com.alipay.shop.designer.command.OrderCommandInvoker;
 import com.alipay.shop.designer.command.cmd.OrderCommand;
+import com.alipay.shop.designer.facade.PayFacade;
 import com.alipay.shop.designer.listener.Order;
 import com.alipay.shop.designer.listener.OrderState;
 import static com.alipay.shop.designer.listener.OrderState.ORDER_WAIT_PAY;
@@ -35,6 +36,9 @@ public class OrderService {
 
     @Resource
     private OrderCommand orderCommand;
+
+    @Resource
+    private PayFacade payFacade;
 
     public Order create(String productId) {
         String orderId = "OID" + productId;
@@ -117,5 +121,12 @@ public class OrderService {
             orderStateMachine.stop();
         }
         return res;
+    }
+
+    public String getUrl(String productId, Float price, Integer payType) {
+        String orderId = "OID" + productId;
+        Order order = (Order) redisProcessor.get(orderId);
+        order.setPrice(price);
+        return payFacade.pay(order, payType);
     }
 }

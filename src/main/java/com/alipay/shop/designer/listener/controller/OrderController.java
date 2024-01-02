@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -35,8 +36,10 @@ public class OrderController {
     }
 
     @PostMapping("/pay")
-    public Order payOrder(@RequestParam String productId) {
-        return orderService.pay(productId);
+    public String payOrder(@RequestParam String productId,
+                           @RequestParam Float price,
+                           @RequestParam Integer payType) {
+        return orderService.getUrl(productId, price, payType);
     }
 
     @PostMapping("/send")
@@ -49,7 +52,7 @@ public class OrderController {
         return orderService.receive(productId);
     }
 
-    @PostMapping("/alipaycallback")
+    @RequestMapping("/alipaycallback")
     public String alipayCallback(HttpServletRequest request) throws UnsupportedEncodingException, AlipayApiException {
 
         //1.获取回调信息
@@ -59,9 +62,9 @@ public class OrderController {
             String[] values = requestParams.get(name);
             String valueStr = "";
             for (int i = 0; i < values.length; i++) {
-                valueStr = i == values.length - 1 ? valueStr + values[i] : valueStr + values[i] + ",";
+                valueStr = (i == values.length - 1) ? valueStr + values[i] : valueStr + values[i] + ",";
             }
-            valueStr = StringUtils.getUTF8ParamsFromISO(request.getParameter("out_trade_no"));
+            valueStr = StringUtils.getUTF8ParamsFromISO(valueStr);
             params.put(name, valueStr);
         }
 

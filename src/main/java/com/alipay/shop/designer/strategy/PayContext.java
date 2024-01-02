@@ -1,5 +1,6 @@
 package com.alipay.shop.designer.strategy;
 
+import com.alipay.shop.designer.factory.AbstractPayContext;
 import com.alipay.shop.designer.listener.Order;
 
 /**
@@ -7,7 +8,7 @@ import com.alipay.shop.designer.listener.Order;
  * @Description
  * @create 2023-12-27 23:23
  */
-public class PayContext {
+public class PayContext extends AbstractPayContext {
 
     private final PayStrategyInterface payStrategy;
 
@@ -15,6 +16,7 @@ public class PayContext {
         this.payStrategy = payStrategy;
     }
 
+    @Override
     public String execute(Order order) {
         return this.payStrategy.pay(order);
     }

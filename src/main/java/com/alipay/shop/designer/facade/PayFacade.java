@@ -1,9 +1,9 @@
 package com.alipay.shop.designer.facade;
 
+import com.alipay.shop.designer.factory.impl.PayContextFactory;
 import com.alipay.shop.designer.listener.Order;
 import com.alipay.shop.designer.strategy.PayContext;
-import com.alipay.shop.designer.strategy.impl.AlipayStrategy;
-import com.alipay.shop.designer.strategy.impl.WechatStrategy;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -13,18 +13,12 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class PayFacade {
+
+    @Autowired
+    private PayContextFactory contextFactory;
+
     public String pay(Order order, Integer payType) {
-        switch (payType) {
-            case 1:
-                AlipayStrategy alipayStrategy = new AlipayStrategy();
-                PayContext alipayContext = new PayContext(alipayStrategy);
-                return alipayContext.execute(order);
-            case 2:
-                WechatStrategy wechatStrategy = new WechatStrategy();
-                PayContext wechatContext = new PayContext(wechatStrategy);
-                return wechatContext.execute(order);
-            default:
-                throw new UnsupportedOperationException("Pay Type not supported!");
-        }
+        PayContext context = contextFactory.getContext(payType);
+        return context.execute(order);
     }
 }
