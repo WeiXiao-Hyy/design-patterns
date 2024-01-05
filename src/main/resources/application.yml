@@ -24,3 +24,22 @@ gitee:
   client_secret: df01d28789c1442470723bf72e05eb478f60bd2671ab88867ec8b3d89a9578bd
   redirect_uri: http://localhost:8081/bridge/gitee
   user_prefix: "GITEE@"
+
+app:
+  id: DesignPatternLearning
+
+# apollo
+
+apollo:
+  meta: "http://localhost:8080"
+  bootstrap:
+    enabled: true
+    eagerLoad:
+      enabled: true
+  cacheDir:
+    "/Users/hujiale/GitCode/Apoll"
+
+logger:
+  level:
+    com:
+      info
