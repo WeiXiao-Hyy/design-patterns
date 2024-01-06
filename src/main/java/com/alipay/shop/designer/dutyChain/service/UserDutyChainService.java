@@ -5,9 +5,11 @@ import com.alipay.shop.designer.dutyChain.CityHandler;
 import com.alipay.shop.designer.dutyChain.enums.HandlerEnum;
 import com.alipay.shop.model.BusinessLaunch;
 import com.alipay.shop.repo.mapper.BusinessLaunchMapper;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import javax.annotation.Resource;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Service;
  * @Description
  * @create 2024-01-06 11:59
  */
+@Slf4j
 @Service
 public class UserDutyChainService {
 
@@ -32,7 +35,11 @@ public class UserDutyChainService {
 
     public List<BusinessLaunch> filterBusinessLaunch(String city, String sex, String product) {
         List<BusinessLaunch> launchList = businessLaunchRepo.findAll();
-        return buildChain().processHandler(launchList, city, sex, product);
+        AbstractBusinessHandler headHandler = buildChain();
+        if (Objects.isNull(headHandler)) {
+            return Collections.emptyList();
+        }
+        return headHandler.processHandler(launchList, city, sex, product);
     }
 
     //组装责任链条并返回责任链条首节点
@@ -50,7 +57,7 @@ public class UserDutyChainService {
         if (this.currentHandlerType.equals(this.handlerType) && Objects.nonNull(this.currentHandler)) {
             return this.currentHandler;
         } else {
-            System.out.println("config modified or first init, start to assemble duty chain.");
+            log.info("config modified or first init, start to assemble duty chain.");
             synchronized (this) {
                 try {
                     //伪头节点
@@ -68,7 +75,7 @@ public class UserDutyChainService {
                     this.currentHandler = dummyHeadHandler.nextHandler;
                     this.currentHandlerType = this.handlerType;
 
-                    return currentHandler;
+                    return this.currentHandler;
                 } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
                     throw new UnsupportedOperationException(e);
                 }
