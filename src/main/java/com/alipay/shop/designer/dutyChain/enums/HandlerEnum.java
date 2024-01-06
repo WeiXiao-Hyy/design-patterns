@@ -5,8 +5,8 @@ import lombok.Getter;
 /**
  * File Description.
  *
- * @author arron
- * @date crated at 2024/1/6 12:01
+ * @author hyy
+ * @date crated at 2025/1/6 12:01
  * @see com.alipay.shop.designer.dutyChain.enums
  */
 @Getter
