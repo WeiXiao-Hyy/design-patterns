@@ -2,7 +2,9 @@ package com.alipay.shop.repo.mapper;
 
 import com.alipay.shop.model.BusinessLaunch;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
 
 /**
  * File Description.
@@ -14,4 +16,6 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface BusinessLaunchMapper extends BaseMapper<BusinessLaunch> {
 
+    @Select("select * from business_launch")
+    List<BusinessLaunch> findAll();
 }
