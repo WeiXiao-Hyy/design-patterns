@@ -2,6 +2,7 @@ package com.alipay.shop.designer.listener.controller;
 
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.internal.util.AlipaySignature;
+import com.alipay.shop.designer.decorator.OrderServiceDecorator;
 import com.alipay.shop.designer.listener.service.OrderService;
 import com.alipay.shop.designer.listener.Order;
 import com.alipay.shop.util.Constants;
@@ -11,6 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,8 +29,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/order")
 public class OrderController {
 
+    @Value("${service.level}")
+    private Integer serviceLevel;
+
     @Autowired
     private OrderService orderService;
+
+    @Autowired
+    private OrderServiceDecorator orderServiceDecorator;
 
     @PostMapping("/create")
     public Order createOrder(@RequestParam String productId) {
@@ -77,7 +85,9 @@ public class OrderController {
             String trade_no = StringUtils.getUTF8ParamsFromISO(request.getParameter("trade_no"));
             float total_amount = Float.parseFloat(StringUtils.getUTF8ParamsFromISO(request.getParameter("total_amount")));
             //进行相关业务操作，修改订单为待发货状态
-            orderService.pay(out_trade_no);
+//            orderService.pay(out_trade_no);
+            //使用装饰器模式
+            orderServiceDecorator.payDecorator(out_trade_no, serviceLevel, total_amount);
             return "支付成功页面跳转, out_trade_no= " + out_trade_no + "trade_no= " + trade_no + "total_amount= " + total_amount;
         } else {
             throw new UnsupportedEncodingException("alipay callback verify failed");

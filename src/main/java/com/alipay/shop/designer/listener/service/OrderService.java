@@ -2,6 +2,7 @@ package com.alipay.shop.designer.listener.service;
 
 import com.alipay.shop.designer.command.OrderCommandInvoker;
 import com.alipay.shop.designer.command.cmd.OrderCommand;
+import com.alipay.shop.designer.decorator.OrderServiceInterface;
 import com.alipay.shop.designer.facade.PayFacade;
 import com.alipay.shop.designer.listener.Order;
 import com.alipay.shop.designer.listener.OrderState;
@@ -21,7 +22,7 @@ import org.springframework.stereotype.Service;
  * @create 2023-12-22 22:58
  */
 @Service
-public class OrderService {
+public class OrderService implements OrderServiceInterface {
 
     //order状态机
     @Resource
