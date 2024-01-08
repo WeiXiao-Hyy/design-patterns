@@ -85,7 +85,7 @@ public class OrderController {
             String trade_no = StringUtils.getUTF8ParamsFromISO(request.getParameter("trade_no"));
             float total_amount = Float.parseFloat(StringUtils.getUTF8ParamsFromISO(request.getParameter("total_amount")));
             //进行相关业务操作，修改订单为待发货状态
-//            orderService.pay(out_trade_no);
+            //orderService.pay(out_trade_no);
             //使用装饰器模式
             orderServiceDecorator.payDecorator(out_trade_no, serviceLevel, total_amount);
             return "支付成功页面跳转, out_trade_no= " + out_trade_no + "trade_no= " + trade_no + "total_amount= " + total_amount;

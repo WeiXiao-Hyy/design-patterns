@@ -56,11 +56,6 @@ public class OrderServiceDecorator extends AbstractOrderServiceDecorator {
         }
     }
 
-    private boolean ifSendRedBag(Products p) {
-        return Objects.nonNull(p) && p.getSendRedBag() == 1;
-    }
-
-
     public void payDecorator(String productId, int serviceLevel, float price) {
         super.pay(productId);
         try {
@@ -68,5 +63,9 @@ public class OrderServiceDecorator extends AbstractOrderServiceDecorator {
         } catch (Exception e) {
             // 重试机制,这里失败不能影响主流程(弱依赖)
         }
+    }
+
+    private boolean ifSendRedBag(Products p) {
+        return Objects.nonNull(p) && p.getSendRedBag() == 1;
     }
 }
