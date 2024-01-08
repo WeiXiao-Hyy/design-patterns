@@ -13,7 +13,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -87,7 +86,7 @@ public class OrderController {
             //进行相关业务操作，修改订单为待发货状态
             //orderService.pay(out_trade_no);
             //使用装饰器模式
-            orderServiceDecorator.setOrderServiceInterface(orderServiceDecorator);
+            orderServiceDecorator.setOrderServiceInterface(orderService);
             orderServiceDecorator.payDecorator(out_trade_no, serviceLevel, total_amount);
             return "支付成功页面跳转, out_trade_no= " + out_trade_no + "trade_no= " + trade_no + "total_amount= " + total_amount;
         } else {
