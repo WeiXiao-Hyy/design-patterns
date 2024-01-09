@@ -23,7 +23,7 @@ public class Mediator extends AbstractMediator {
             log.info("朋友代替付款: " + buyer.customerName + " 转发OrderId= " + orderId + "到用户" + targetCustomer + "进行支付.");
         } else if (customer instanceof Payer) {
             AbstractCustomer payer = customerInstances.get(orderId).get("payer");
-            log.info("代付完成:" + payer.customerName + "完成OrderId" + orderId + "的支付. 通知" + targetCustomer + "支付结果");
+            log.info("代付完成:" + payer.customerName + " 完成OrderId= " + orderId + "的支付. 通知" + targetCustomer + "支付结果");
         }
         customerInstances.remove(orderId);
     }
