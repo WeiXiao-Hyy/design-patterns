@@ -12,6 +12,8 @@ import com.alipay.shop.designer.mediator.AbstractCustomer;
 import com.alipay.shop.designer.mediator.Buyer;
 import com.alipay.shop.designer.mediator.Mediator;
 import com.alipay.shop.designer.mediator.Payer;
+import com.alipay.shop.designer.template.OrderAuditLog;
+import com.alipay.shop.designer.template.PayOrderLog;
 import com.alipay.shop.util.RedisCommonProcessor;
 import java.util.HashMap;
 import java.util.Map;
@@ -41,14 +43,21 @@ public class OrderService implements OrderServiceInterface {
     @Resource
     private RedisCommonProcessor redisProcessor;
 
+    //命令模式
     @Resource
     private OrderCommand orderCommand;
 
+    //门面模式
     @Resource
     private PayFacade payFacade;
 
+    //中介者模式-朋友代付
     @Resource
     private Mediator mediator;
+
+    //模版模式-日志审计
+    @Resource
+    private PayOrderLog payOrderLog;
 
     public Order create(String productId) {
         String orderId = "OID" + productId;
@@ -78,6 +87,18 @@ public class OrderService implements OrderServiceInterface {
                 .build();
         //将Message传递给Spring状态机
         if (changeStateAction(message, order)) {
+
+            //日志审计操作
+            try {
+                //创建payOrderLog
+                OrderAuditLog auditLog = payOrderLog.createAuditLog("accountId", "pay", orderId);
+                //TODO:发送日志到Queue中-弱依赖
+
+            } catch (Exception e) {
+
+            }
+
+            //返回order
             return order;
         }
         return null;
