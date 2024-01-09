@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PersonalTicket {
+public class PersonalTicket implements Cloneable {
 
     //发票固定不变的信息
     private String finalInfo;
@@ -24,4 +24,15 @@ public class PersonalTicket {
     private String product;
 
     private String content;
+
+    @Override
+    public PersonalTicket clone() {
+        try {
+            PersonalTicket clone = (PersonalTicket) super.clone();
+            // TODO: copy mutable state here, so the clone can't change the internals of the original
+            return clone;
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
+    }
 }

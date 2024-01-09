@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CompanyTicket {
+public class CompanyTicket implements Cloneable {
     private String finalInfo;
 
     private String title;
@@ -27,4 +27,15 @@ public class CompanyTicket {
     private String product;
 
     private String content;
+
+    @Override
+    public CompanyTicket clone() {
+        try {
+            CompanyTicket clone = (CompanyTicket) super.clone();
+            // TODO: copy mutable state here, so the clone can't change the internals of the original
+            return clone;
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
+    }
 }
