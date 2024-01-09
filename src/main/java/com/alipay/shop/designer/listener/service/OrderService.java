@@ -8,7 +8,13 @@ import com.alipay.shop.designer.listener.Order;
 import com.alipay.shop.designer.listener.OrderState;
 import static com.alipay.shop.designer.listener.OrderState.ORDER_WAIT_PAY;
 import com.alipay.shop.designer.listener.OrderStateChangeAction;
+import com.alipay.shop.designer.mediator.AbstractCustomer;
+import com.alipay.shop.designer.mediator.Buyer;
+import com.alipay.shop.designer.mediator.Mediator;
+import com.alipay.shop.designer.mediator.Payer;
 import com.alipay.shop.util.RedisCommonProcessor;
+import java.util.HashMap;
+import java.util.Map;
 import javax.annotation.Resource;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.support.MessageBuilder;
@@ -40,6 +46,9 @@ public class OrderService implements OrderServiceInterface {
 
     @Resource
     private PayFacade payFacade;
+
+    @Resource
+    private Mediator mediator;
 
     public Order create(String productId) {
         String orderId = "OID" + productId;
@@ -104,6 +113,28 @@ public class OrderService implements OrderServiceInterface {
         return null;
     }
 
+    public String getUrl(String productId, Float price, Integer payType) {
+        String orderId = "OID" + productId;
+        Order order = (Order) redisProcessor.get(orderId);
+        order.setPrice(price);
+        return payFacade.pay(order, payType);
+    }
+
+    public void friendPay(String sourceCustomer, String orderId, String targetCustomer, String payResult, String role) {
+        //创建中介者
+        Buyer buyer = new Buyer(mediator, orderId, sourceCustomer);
+        Payer payer = new Payer(mediator, orderId, sourceCustomer);
+        Map<String, AbstractCustomer> map = new HashMap<>();
+        map.put("buyer", buyer);
+        map.put("payer", payer);
+        mediator.customerInstances.put(orderId, map);
+        if ("B".equals(role)) {
+            buyer.messageTransfer(orderId, targetCustomer, payResult);
+        } else if ("P".equals(role)) {
+            payer.messageTransfer(orderId, targetCustomer, payResult);
+        }
+    }
+
     private boolean changeStateAction(Message<OrderStateChangeAction> message, Order order) {
         boolean res = false;
         try {
@@ -122,12 +153,5 @@ public class OrderService implements OrderServiceInterface {
             orderStateMachine.stop();
         }
         return res;
-    }
-
-    public String getUrl(String productId, Float price, Integer payType) {
-        String orderId = "OID" + productId;
-        Order order = (Order) redisProcessor.get(orderId);
-        order.setPrice(price);
-        return payFacade.pay(order, payType);
     }
 }

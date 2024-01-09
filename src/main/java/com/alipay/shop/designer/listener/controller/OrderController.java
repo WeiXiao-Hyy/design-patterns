@@ -93,4 +93,9 @@ public class OrderController {
             throw new UnsupportedEncodingException("alipay callback verify failed");
         }
     }
+
+    @PostMapping("/friendPay")
+    public void friendPay(String sourceCustomer, String orderId, String targetCustomer, String payResult, String role) {
+        orderService.friendPay(sourceCustomer, orderId, targetCustomer, payResult, role);
+    }
 }
