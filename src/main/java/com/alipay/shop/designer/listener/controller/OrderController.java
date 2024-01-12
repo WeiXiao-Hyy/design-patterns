@@ -88,7 +88,7 @@ public class OrderController {
             //使用装饰器模式
             orderServiceDecorator.setOrderServiceInterface(orderService);
             orderServiceDecorator.payDecorator(out_trade_no, serviceLevel, total_amount);
-            return "支付成功页面跳转, out_trade_no= " + out_trade_no + "trade_no= " + trade_no + "total_amount= " + total_amount;
+            return "支付成功页面跳转, out_trade_no= " + out_trade_no + ", trade_no= " + trade_no + ", total_amount= " + total_amount;
         } else {
             throw new UnsupportedEncodingException("alipay callback verify failed");
         }

@@ -1,10 +1,13 @@
 package com.alipay.shop.designer.builder;
 
+import org.springframework.stereotype.Component;
+
 /**
  * @author hyy
  * @Description
  * @create 2024-01-09 11:50
  */
+@Component
 public class Director extends AbstractDirector {
 
     @Override

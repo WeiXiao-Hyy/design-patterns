@@ -24,8 +24,10 @@ public class OrderCommandReceiver {
                 log.info("通过mq通知物流部门");
             case ORDER_WAIT_RECEIVE:
                 log.info("订单发货: order={}", order);
+                return;
             case ORDER_FINISH:
                 log.info("订单完成, order={}", order);
+                return;
             default:
                 throw new UnsupportedOperationException("Order State error");
         }

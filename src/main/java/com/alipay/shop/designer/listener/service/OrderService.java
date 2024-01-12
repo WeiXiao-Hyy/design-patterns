@@ -76,9 +76,7 @@ public class OrderService implements OrderServiceInterface {
         return order;
     }
 
-    //TODO: 待完善的PAY操作
-    public Order pay(String productId) {
-        String orderId = "OID" + productId;
+    public Order pay(String orderId) {
         Order order = (Order) redisProcessor.get(orderId);
         //包装订单状态Message, 并附带订单操作PAY_ORDER
         Message<OrderStateChangeAction> message = MessageBuilder
@@ -98,7 +96,6 @@ public class OrderService implements OrderServiceInterface {
 
             }
 
-            //返回order
             return order;
         }
         return null;
