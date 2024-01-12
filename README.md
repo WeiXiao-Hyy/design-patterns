@@ -2,6 +2,26 @@
 
 《贯穿设计模式》学习笔记，持续更新!
 
+## 总览
+
+```
+./designer
+├── adapter#适配器模式
+├── bridge#桥接模式  
+├── builder#建造者模式
+├── command#命令模式
+├── composite#组合模式
+├── decorator#装饰者模式
+├── dutyChain#责任链表模式
+├── facade#门面模式
+├── factory#工厂模式
+├── listener#观察者模式
+├── mediator#中介者模式
+├── proxy#代理模式
+├── state#状态模式
+├── strategy#策略模式
+└── template#模版模式
+```
 ## 博客
 
 欢迎学习我的博客-https://blog.csdn.net/qq_41124175/category_10663389.html
