@@ -15,12 +15,12 @@ public class Constants {
     /**
      * 支付宝公钥
      */
-    public static final String ALIPAY_PUBLIC_KEY = "";
+    public static final String ALIPAY_PUBLIC_KEY = "#";
 
     /**
      * 应用私钥
      */
-    public static final String APP_PRIVATE_KEY = "";
+    public static final String APP_PRIVATE_KEY = "#";
 
     /**
      * 沙箱接口路径

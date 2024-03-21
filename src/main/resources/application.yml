@@ -25,8 +25,8 @@ mybatis-plus:
       id-type: auto
 
 gitee:
-  client_id: a37f1f134f04696bd623746520e48e44ee8e3f1b43ff73af640c49ba23dfdc3e
-  client_secret: df01d28789c1442470723bf72e05eb478f60bd2671ab88867ec8b3d89a9578bd
+  client_id: # client_id
+  client_secret: # client_secret
   redirect_uri: http://localhost:8081/bridge/gitee
   user_prefix: "GITEE@"
 
@@ -40,10 +40,8 @@ apollo:
     enabled: true
     eagerLoad:
       enabled: true
-  cacheDir:
-    "/Users/hujiale/GitCode/Apoll"
+  cacheDir: "/Users/hujiale/GitCode/Apoll"
 
 logger:
   level:
-    com:
-      info
+    com: info
