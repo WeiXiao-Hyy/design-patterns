@@ -80,3 +80,5 @@ fabric.properties
 .idea/*
 
 target/
+
+.vscode/
